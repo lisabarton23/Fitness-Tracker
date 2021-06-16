@@ -1,26 +1,42 @@
 const router = require('express').Router();
-// const { Project } = require('../../models');
+  const  Workout  = require('../../models/workout');
 
-//api/workouts/
-router.get('/', (req, res) => {
+//api/workouts/ I need workouts/range and workouts/ 
+router.get('/range', (req, res) => {
   //range 7 datasets
   //sort by date for most recent
-     res.send('works');
+  Workout.find({})
+  .sort({ day: 1 })
+  .then(workoutObj => {
+    res.json(workoutObj);
+  })
+  .catch(err => {
+    res.status(400).json(err);
+  });
   });
   
-// router.post('/', withAuth, async (req, res) => {
-//   try {
-//     const newProject = await Project.create({
-//       ...req.body,
-//       user_id: req.session.user_id,
-//     });
-
-//     res.status(200).json(newProject);
-//   } catch (err) {
-//     res.status(400).json(err);
-//   }
-// });
-
+  router.get('/', (req, res) => {
+    //range 7 datasets
+    //sort by date for most recent
+    Workout.find({})
+    .sort({ day: 1 })
+    .then(workoutObj => {
+      res.json(workoutObj);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+    });
+    
+    router.post("/", ({ body }, res) => {
+      Workout.insertMany(body)
+        .then(workoutObj => {
+          res.json(workoutObj);
+        })
+        .catch(err => {
+          res.status(400).json(err);
+        });
+    });
 // router.delete('/:id', withAuth, async (req, res) => {
 //   try {
 //     const projectData = await Project.destroy({
